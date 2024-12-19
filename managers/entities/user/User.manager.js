@@ -15,7 +15,6 @@ module.exports = class UserManager {
     async createUser(data) {
         const { username, email, password, role } = data;
 
-        // Data validation
         const validation = this.validators.create.validate(data);
 
         if (validation.error) {

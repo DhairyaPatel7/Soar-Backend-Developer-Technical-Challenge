@@ -252,4 +252,20 @@ describe('Student Entity Integration Tests', () => {
 
         expect(deleteRes.status).to.equal(204);
     });
+
+    it('should get all students', async () => {
+        const getRes = await request(app)
+            .get('/api/students')
+            .set('Authorization', `Bearer ${schooladminToken}`);
+    
+        expect(getRes.status).to.equal(200);
+        expect(getRes.body).to.be.an('array');
+        expect(getRes.body.length).to.be.at.least(1); 
+        expect(getRes.body[0]).to.have.property('_id');
+        expect(getRes.body[0]).to.have.property('name');
+        expect(getRes.body[0]).to.have.property('email');
+        expect(getRes.body[0].classroom._id).to.equal(classroomId);
+    });
+
+
 });

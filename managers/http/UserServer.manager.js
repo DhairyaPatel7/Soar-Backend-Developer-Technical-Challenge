@@ -11,9 +11,9 @@ module.exports = class UserServer {
         this.config = config;
         this.managers = managers;
         this.userApi = managers.userApi;
-        this.school = managers.school; // Ensure school manager is available
-        this.userManager = managers.user; // Ensure user manager is available
-        this.classroomManager = managers.classroom; // Ensure classroom manager is available
+        this.school = managers.school; 
+        this.userManager = managers.user; 
+        this.classroomManager = managers.classroom; 
         this.studentManager = managers.student;
         this.middlewareManager = new MiddlewareManager(app);
     }
@@ -35,8 +35,8 @@ module.exports = class UserServer {
 
         // Rate limiting middleware
         const limiter = rateLimit({
-            windowMs: 15 * 60 * 1000, // 15 minutes
-            max: 100, // limit each IP to 100 requests per windowMs
+            windowMs: this.config.dotEnv.RATE_LIMIT_WINDOW_IN_MINUTES * 60 * 1000,
+            max: this.config.dotEnv.RATE_LIMIT_MAX_REQUESTS, 
             message: 'Too many requests from this IP, please try again later.'
         });
         app.use(limiter);
@@ -63,10 +63,15 @@ module.exports = class UserServer {
             res.status(500).send('Something broke!');
         });
 
+        // Define a basic route
+        app.get('/', (req, res) => {
+            res.send('Welcome to Soar, School System Management - Backend Task!');
+        });
+
         /** a single middleware to handle all */
         app.all('/api/:moduleName/:fnName', this.userApi.mw);
 
-        const PORT = this.config.dotEnv.USER_PORT || 3000;
+        const PORT = process.env.PORT || this.config.dotEnv.USER_PORT || 3000;
         const server = http.createServer(app);
         server.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);

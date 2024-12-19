@@ -17,9 +17,7 @@ module.exports = async (req, res, next) => {
             return res.status(400).json({ error: 'Invalid token.' });
         }
 
-        console.log('Decoded token..............', decoded);
         const user = await userModel.findById(decoded.userId);
-        console.log('User..............', user);
         req.user = user; 
         next();
     } catch (ex) {

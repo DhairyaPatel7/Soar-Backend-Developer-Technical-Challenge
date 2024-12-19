@@ -1,0 +1,1338 @@
+{
+	"info": {
+		"_postman_id": "9a6f66cf-9500-42ed-8aba-22a980b1cde2",
+		"name": "Soar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22325843"
+	},
+	"item": [
+		{
+			"name": "Local",
+			"item": [
+				{
+					"name": "School",
+					"item": [
+						{
+							"name": "Create school",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Example School\",\n  \"address\": \"123 Main St\",\n  \"phone\": \"123-456-7890\",\n  \"email\": \"example@school.com\",\n  \"website\": \"http://example.com\",\n  \"established\": \"2000-01-01\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/schools",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"schools"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All schools",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/schools",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"schools"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get School By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/schools/67619a54a7e5beada0eb3f93",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"schools",
+										"67619a54a7e5beada0eb3f93"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update School By Id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Updated School Name\",\n  \"address\": \"456 New Address\",\n  \"phone\": \"987-654-3210\",\n  \"email\": \"updated@school.com\",\n  \"website\": \"http://updated.com\",\n  \"established\": \"2010-01-01\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/schools/67619a54a7e5beada0eb3f93",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"schools",
+										"67619a54a7e5beada0eb3f93"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete School By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/schools/67617e74e68210f5ced7b9c0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"schools",
+										"67617e74e68210f5ced7b9c0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"superadmin\",\n  \"email\": \"superadmin@example.com\",\n  \"password\": \"SuperSecurePassword123\",\n  \"role\": \"superadmin\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"superadmin@example.com\",\n  \"password\": \"SuperSecurePassword123\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/users/6761852391f6b3ab44852099",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"users",
+										"6761852391f6b3ab44852099"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer YOUR_JWT_TOKEN"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"newUsername\",\n  \"email\": \"newEmail@example.com\",\n  \"password\": \"newPassword\",\n  \"role\": \"user\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/users/USER_ID",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"users",
+										"USER_ID"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Student",
+					"item": [
+						{
+							"name": "Get All students",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/students",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Student By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/students/6761da1565f45a238799b253",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"students",
+										"6761da1565f45a238799b253"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Student",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"janedoe@example.com\",\n  \"classroomId\": \"6761d53e84463de706c4d3f9\",\n  \"age\": 16,\n  \"address\": \"789 Student St\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/students/6761da1565f45a238799b253",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"students",
+										"6761da1565f45a238799b253"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Student By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/students/6761da1565f45a238799b253",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"students",
+										"6761da1565f45a238799b253"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Student",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Student 3\",\n  \"email\": \"student3@example.com\",\n  \"classroom\": \"6761d53e84463de706c4d3f9\",\n  \"age\": 17,\n  \"address\": \"3 Student St\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/students",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Students by classroom",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/students/classroom/6761d53e84463de706c4d3f9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"students",
+										"classroom",
+										"6761d53e84463de706c4d3f9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Classroom",
+					"item": [
+						{
+							"name": "Create Classroom",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Classroom 102\",\n  \"school\": \"6761d05fd5af73ca275fe4d8\",\n  \"capacity\": 30,\n  \"resources\": [\"Projector\", \"Whiteboard\"]\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/classrooms",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"classrooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Classrooms",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/classrooms/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"classrooms",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Classroom By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/classrooms/6761d53e84463de706c4d3f9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"classrooms",
+										"6761d53e84463de706c4d3f9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Classroom",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Updated Classroom Name\",\n  \"capacity\": 35,\n  \"resources\": [\"Updated Resource 1\", \"Updated Resource 2\"]\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/classrooms/6761de6e6e767db4a4f774ff",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"classrooms",
+										"6761de6e6e767db4a4f774ff"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/api/classrooms/6761de6e6e767db4a4f774ff",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"classrooms",
+										"6761de6e6e767db4a4f774ff"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Development",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Register a User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"superadmin\",\n  \"email\": \"superadmin@example.com\",\n  \"password\": \"SuperSecurePassword123\",\n  \"role\": \"superadmin\"\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/users/register",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Authenticate a User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"superadmin@example.com\",\n  \"password\": \"SuperSecurePassword123\"\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/users/login",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/users",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All User by User id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/users/6763f8f0098d7196e06f3c83",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"users",
+										"6763f8f0098d7196e06f3c83"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a User",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"school\": \"6763fbe4098d7196e06f3ca4\"\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/users/6763fb21098d7196e06f3c91",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"users",
+										"6763fb21098d7196e06f3c91"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a user",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/users/6763f8f0098d7196e06f3c83",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"users",
+										"6763f8f0098d7196e06f3c83"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "School",
+					"item": [
+						{
+							"name": "Create a school",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Example School\",\n  \"address\": \"123 Main Street\",\n  \"phone\": \"123-456-7890\",\n  \"email\": \"school@example.com\",\n  \"website\": \"https://example.com\",\n  \"established\": \"2023-01-01\",\n  \"admin\": \"6763fb21098d7196e06f3c91\"\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/schools",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"schools"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Schools",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/schools",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"schools"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get School By School Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/schools/6763fb3a098d7196e06f3c95",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"schools",
+										"6763fb3a098d7196e06f3c95"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update School",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Updated School Name\"\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/schools/6763fb3a098d7196e06f3c95",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"schools",
+										"6763fb3a098d7196e06f3c95"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete School",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/schools/6763fb3a098d7196e06f3c95",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"schools",
+										"6763fb3a098d7196e06f3c95"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Student",
+					"item": [
+						{
+							"name": "Create a Student",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Jane Doe\",\n  \"age\": 17,\n  \"address\": \"123 Main Street\",\n  \"email\": \"janedoe@gmail.com\",\n  \"classroom\": \"6763feb3098d7196e06f3cca\"\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/students",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Students",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/students",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Student By Student Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/students/6763ff7b098d7196e06f3cd4",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"students",
+										"6763ff7b098d7196e06f3cd4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a Student",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"John Doe\",\n  \"age\": 18,\n  \"address\": \"456 Another Street\"\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/students/6763ff7b098d7196e06f3cd4",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"students",
+										"6763ff7b098d7196e06f3cd4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Students By Classroom Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/students/classrooms/6763fe89098d7196e06f3cc3",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"students",
+										"classrooms",
+										"6763fe89098d7196e06f3cc3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Detele a student",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/students/6763ffa6098d7196e06f3cdf",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"students",
+										"6763ffa6098d7196e06f3cdf"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Classroom",
+					"item": [
+						{
+							"name": "Create a Classroom",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Class A\",\n  \"capacity\": 30,\n  \"school\": \"6763fbe4098d7196e06f3ca4\"\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/classrooms",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"classrooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Classrooms",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/classrooms",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"classrooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Classroom By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/classrooms/6763fdde098d7196e06f3cb1",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"classrooms",
+										"6763fdde098d7196e06f3cb1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a Classroom",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Updated Class Name\",\n  \"capacity\": 1\n}"
+								},
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/classrooms/6763fdde098d7196e06f3cb1",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"classrooms",
+										"6763fdde098d7196e06f3cb1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a Classroom",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <jwt_token>"
+									}
+								],
+								"url": {
+									"raw": "https://soar-school-management-system-ee8a8faad39d.herokuapp.com/api/classrooms/6763fdde098d7196e06f3cb1",
+									"protocol": "https",
+									"host": [
+										"soar-school-management-system-ee8a8faad39d",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"classrooms",
+										"6763fdde098d7196e06f3cb1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

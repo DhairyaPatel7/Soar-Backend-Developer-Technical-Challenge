@@ -182,4 +182,67 @@ describe('Classroom Entity Integration Tests', () => {
 
         expect(deleteRes.status).to.equal(204);
     });
+
+    it('should get all classrooms', async () => {
+        const newClassroom1 = {
+            name: 'Classroom A',
+            school: schoolId,
+            capacity: 25,
+            resources: ['Chairs', 'Desks']
+        };
+
+        const newClassroom2 = {
+            name: 'Classroom B',
+            school: schoolId,
+            capacity: 40,
+            resources: ['Computers', 'Projector']
+        };
+
+        await request(app)
+            .post('/api/classrooms')
+            .set('Authorization', `Bearer ${schooladminToken}`)
+            .send(newClassroom1);
+
+        await request(app)
+            .post('/api/classrooms')
+            .set('Authorization', `Bearer ${schooladminToken}`)
+            .send(newClassroom2);
+
+        const getAllRes = await request(app)
+            .get('/api/classrooms')
+            .set('Authorization', `Bearer ${schooladminToken}`);
+
+        expect(getAllRes.status).to.equal(200);
+        expect(getAllRes.body).to.be.an('array');
+        expect(getAllRes.body.length).to.be.at.least(2);
+        const classroomNames = getAllRes.body.map((classroom) => classroom.name);
+        expect(classroomNames).to.include('Classroom A');
+        expect(classroomNames).to.include('Classroom B');
+    });
+
+    it('should fail to create a classroom with invalid school', async () => {
+        const invalidSchoolId = '605c72ef1532074b4c20d1a1'; 
+        const newClassroom = {
+            name: 'Test Classroom',
+            school: invalidSchoolId, 
+            capacity: 30,
+            resources: ['Projector', 'Whiteboard']
+        };
+    
+        const res = await request(app)
+            .put('/api/classrooms')
+            .set('Authorization', `Bearer ${schooladminToken}`)
+            .send(newClassroom);
+    
+        expect(res.status).to.equal(404); 
+    });
+
+    it('should fail to get a deleted classroom by ID', async () => {
+        const getRes = await request(app)
+            .get(`/api/classrooms/${classroomId}`)
+            .set('Authorization', `Bearer ${schooladminToken}`);
+
+        expect(getRes.status).to.equal(400);
+    });
+    
 });

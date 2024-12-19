@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const { school } = require('../../_common/schema.models');
 
 const createSchema = Joi.object({
     name: Joi.string().required(),

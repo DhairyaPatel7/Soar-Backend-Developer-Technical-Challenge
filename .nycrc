@@ -5,7 +5,8 @@
     "routes/**/*.js"
   ],
   "exclude": [
-    "tests/**/*.js"
+    "tests/**/*.js",
+    "managers/entities/token/*.js"
   ],
   "reporter": [
     "html",

@@ -16,6 +16,7 @@ const SchoolManager         = require('../managers/entities/school/School.manage
 const UserManager           = require('../managers/entities/user/User.manager');
 const ClassroomManager      = require('../managers/entities/classroom/Classroom.manager');
 const StudentManager        = require('../managers/entities/student/Student.manager');
+const MongoLoader           = require('./MongoLoader');
 
 
 /** 
@@ -32,19 +33,15 @@ module.exports = class ManagersLoader {
     }
 
     _preload() {
-        const validatorsLoader = new ValidatorsLoader({
-            models: require('../managers/_common/schema.models'),
-            customValidators: require('../managers/_common/schema.validators'),
-        });
         const resourceMeshLoader = new ResourceMeshLoader({});
-        // const mongoLoader = new MongoLoader({ schemaExtension: "mongoModel.js" });
-
-        this.validators = validatorsLoader.load();
         this.resourceNodes = resourceMeshLoader.load();
-        // this.mongomodels = mongoLoader.load();
     }
 
     load() {
+        const mongoLoader = new MongoLoader({ schemaExtension: "model.js" });
+        this.mongomodels = mongoLoader.load();
+        const validatorsLoader = new ValidatorsLoader({ validatorExtension: 'validator.js' });
+        this.validators = validatorsLoader.load();
         this.managers.responseDispatcher = new ResponseDispatcher();
         this.managers.liveDb = new LiveDB(this.injectable);
         const middlewaresLoader = new MiddlewaresLoader(this.injectable);
@@ -56,24 +53,10 @@ module.exports = class ManagersLoader {
         this.managers.timeMachine = new TimeMachine(this.injectable);
         this.managers.token = new TokenManager(this.injectable);
 
-        // Ensure mongomodels and validators are correctly initialized
-        const mongomodels = {
-            school: require('../managers/entities/school/school.model'),
-            user: require('../managers/entities/user/user.model'), // Add user model
-            classroom: require('../managers/entities/classroom/classroom.model'),
-            student: require('../managers/entities/student/student.model'), // Add student model
-        };
-        const validators = {
-            school: require('../managers/entities/school/school.validator'),
-            user: require('../managers/entities/user/user.validator'), // Add user validator
-            classroom: require('../managers/entities/classroom/classroom.validator'), // Add user validator
-            student: require('../managers/entities/student/student.validator'), // Add student validator
-        };
-
-        this.managers.school = new SchoolManager({ mongomodels, validators }); // Pass mongomodels and validators to SchoolManager
-        this.managers.user = new UserManager({ mongomodels, validators, managers: this.managers }); // Add UserManager
-        this.managers.classroom = new ClassroomManager({ mongomodels, validators }); // Pass mongomodels and validators to ClassroomManager
-        this.managers.student = new StudentManager({ mongomodels, validators }); // Pass mongomodels and validators to StudentManager
+        this.managers.school = new SchoolManager({ mongomodels: this.mongomodels, validators: this.validators }); 
+        this.managers.user = new UserManager({ mongomodels: this.mongomodels, validators: this.validators, managers: this.managers }); 
+        this.managers.classroom = new ClassroomManager({ mongomodels: this.mongomodels, validators: this.validators }); 
+        this.managers.student = new StudentManager({ mongomodels: this.mongomodels, validators: this.validators }); 
         /*************************************************************************************************/
         this.managers.mwsExec = new VirtualStack({ ...{ preStack: [/* '__token', */'__device',] }, ...this.injectable });
         this.managers.userApi = new ApiHandler({ ...this.injectable, ...{ prop: 'httpExposed' } });

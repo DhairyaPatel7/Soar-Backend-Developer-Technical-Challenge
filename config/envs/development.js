@@ -11,5 +11,7 @@ module.exports = {
     LONG_TOKEN_SECRET: 'long_token_secret',
     SHORT_TOKEN_SECRET: 'short_token_secret',
     NACL_SECRET: 'nacl_secret',
-    USER_PORT: 3000
+    USER_PORT: 3000,
+    RATE_LIMIT_WINDOW_IN_MINUTES: 15,
+    RATE_LIMIT_MAX_REQUESTS: 100
 };

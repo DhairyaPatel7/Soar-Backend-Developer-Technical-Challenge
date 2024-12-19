@@ -2,7 +2,6 @@ const express = require('express');
 const config                = require('./config/index.config.js');
 const Cortex                = require('ion-cortex');
 const ManagersLoader        = require('./loaders/ManagersLoader.js');
-const schoolRoutes = require('./routes/schoolRoutes'); // Import school routes
 
 const mongoDB = config.dotEnv.MONGO_URI? require('./connect/mongo')({
     uri: config.dotEnv.MONGO_URI

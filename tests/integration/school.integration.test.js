@@ -114,4 +114,44 @@ describe('School Entity Integration Tests', () => {
 
         expect(deleteRes.status).to.equal(204);
     });
+
+    it('should get all schools', async () => {
+        // Create multiple schools
+        const schools = [
+            {
+                name: 'School One',
+                address: 'Address One',
+                phone: '111-111-1111',
+                email: 'schoolone@example.com',
+                website: 'http://schoolone.com',
+                established: '1990-01-01',
+                admin: userId
+            },
+            {
+                name: 'School Two',
+                address: 'Address Two',
+                phone: '222-222-2222',
+                email: 'schooltwo@example.com',
+                website: 'http://schooltwo.com',
+                established: '1995-01-01',
+                admin: userId
+            }
+        ];
+
+        for (const school of schools) {
+            await request(app)
+                .post('/api/schools')
+                .set('Authorization', `Bearer ${token}`)
+                .send(school);
+        }
+
+        // Get all schools
+        const getAllRes = await request(app)
+            .get('/api/schools')
+            .set('Authorization', `Bearer ${token}`);
+
+        expect(getAllRes.status).to.equal(200);
+        expect(getAllRes.body).to.be.an('array');
+        expect(getAllRes.body.length).to.be.greaterThan(1);
+    });
 });

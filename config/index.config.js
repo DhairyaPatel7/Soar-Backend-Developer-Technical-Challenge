@@ -1,9 +1,9 @@
 const path = require('path');
-const utils = require('../libs/utils'); // Assuming utils is a module in your project
-const pjson = require('../package.json'); // Assuming package.json is in the root directory
+const utils = require('../libs/utils'); 
+const pjson = require('../package.json'); 
 
-// Get the environment from the command-line arguments or default to 'local'
-let env = process.argv[2] || 'local';
+// Get the environment from the command-line arguments or default to 'development'
+let env = process.argv[2] || 'development';
 if (env.startsWith('tests/')) {
     env = 'test';
 }
@@ -40,6 +40,8 @@ const MONGO_URI = config.MONGO_URI || process.env.MONGO_URI || `mongodb://localh
 const LONG_TOKEN_SECRET = config.LONG_TOKEN_SECRET || process.env.LONG_TOKEN_SECRET || null;
 const SHORT_TOKEN_SECRET = config.SHORT_TOKEN_SECRET || process.env.SHORT_TOKEN_SECRET || null;
 const NACL_SECRET = config.NACL_SECRET || process.env.NACL_SECRET || null;
+const RATE_LIMIT_WINDOW_IN_MINUTES = config.RATE_LIMIT_WINDOW_IN_MINUTES || process.env.RATE_LIMIT_WINDOW_IN_MINUTES || 15;
+const RATE_LIMIT_MAX_REQUESTS = config.RATE_LIMIT_MAX_REQUESTS || process.env.RATE_LIMIT_MAX_REQUESTS || 100;
 
 config.dotEnv = {
     SERVICE_NAME,
@@ -58,7 +60,9 @@ config.dotEnv = {
     MONGO_URI,
     LONG_TOKEN_SECRET,
     SHORT_TOKEN_SECRET,
-    NACL_SECRET
+    NACL_SECRET,
+    RATE_LIMIT_WINDOW_IN_MINUTES,
+    RATE_LIMIT_MAX_REQUESTS
 }
 
 module.exports = config;

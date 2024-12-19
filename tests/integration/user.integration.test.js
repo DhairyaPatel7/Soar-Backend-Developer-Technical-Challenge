@@ -71,6 +71,32 @@ describe('User Entity Integration Tests', () => {
         expect(updateRes.body.username).to.equal(updatedUser.username);
     });
 
+    it('should get a user by ID', async () => {
+        const getRes = await request(app)
+            .get(`/api/users/${userId}`)
+            .set('Authorization', `Bearer ${token}`);
+    
+        expect(getRes.status).to.equal(200);
+        expect(getRes.body).to.have.property('_id');
+        expect(getRes.body._id).to.equal(userId);
+        expect(getRes.body.username).to.equal('Updated User');
+        expect(getRes.body.email).to.equal('testuser@example.com');
+    });
+
+    
+    it('should get all users', async () => {
+        const getRes = await request(app)
+            .get('/api/users')
+            .set('Authorization', `Bearer ${token}`);
+    
+        expect(getRes.status).to.equal(200);
+        expect(getRes.body).to.be.an('array');
+        expect(getRes.body.length).to.be.at.least(1); 
+        expect(getRes.body[0]).to.have.property('_id');
+        expect(getRes.body[0]).to.have.property('username');
+        expect(getRes.body[0]).to.have.property('email');
+    });
+
     it('should delete a user', async () => {
         const deleteRes = await request(app)
             .delete(`/api/users/${userId}`)
@@ -79,4 +105,5 @@ describe('User Entity Integration Tests', () => {
 
         expect(deleteRes.status).to.equal(204);
     });
+    
 });

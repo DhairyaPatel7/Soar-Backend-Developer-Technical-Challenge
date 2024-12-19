@@ -24,13 +24,11 @@ module.exports = (userManager) => {
         }
     });
 
-    // Login a user
+    // Authenticate a user
     router.post('/login', async (req, res) => {
         try {
             console.log('Logging in a user...');
             const { email, password } = req.body;
-            // const headers = req.headers;
-            // const device = req.headers['user-agent'];
             const authResponse = await userManager.authenticateUser(email, password);
             console.log('User logged in:', authResponse);
             res.status(200).json(authResponse);

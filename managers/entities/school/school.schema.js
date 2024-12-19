@@ -7,7 +7,7 @@ const schoolSchema = new mongoose.Schema({
     email: { type: String, required: true },
     website: { type: String },
     established: { type: Date },
-    admin: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Map school to a user (school admin)
+    admin: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
 
 module.exports = schoolSchema;

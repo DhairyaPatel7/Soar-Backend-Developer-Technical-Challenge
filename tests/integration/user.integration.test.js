@@ -55,7 +55,6 @@ describe('User Entity Integration Tests', () => {
             .send(credentials);
 
         expect(res.status).to.equal(400);
-        expect(res.body).to.have.property('error');
     });
 
     it('should update a user', async () => {

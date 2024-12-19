@@ -1,3 +1,6 @@
+const { NotFoundError, AccessDeniedError, BadRequestError } = require('../../../error/error');
+const mongoose = require('mongoose');
+
 module.exports = class StudentManager {
     constructor({ mongomodels, validators }) {
         this.Student = mongomodels.student;
@@ -9,21 +12,25 @@ module.exports = class StudentManager {
     async createStudent(data, user) {
         const validation = this.validators.create.validate(data);
         if (validation.error) {
-            throw new Error(validation.error.details[0].message);
+            throw new BadRequestError(validation.error.details[0].message);
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(data.classroom)) {
+            throw new BadRequestError('Invalid Classroom');
         }
 
         const classroom = await this.Classroom.findById(data.classroom).populate('school');
         if (!classroom) {
-            throw new Error('Classroom not found');
+            throw new NotFoundError('Classroom not found');
         }
 
         if (user.role !== 'superadmin' && !classroom.school.equals(user.school)) {
-            throw new Error('Access denied: You do not belong to the same school as the classroom');
+            throw new AccessDeniedError('Access denied: You do not belong to the same school as the classroom');
         }
 
         const studentCount = await this.Student.countDocuments({ classroom: data.classroom });
         if (studentCount >= classroom.capacity) {
-            throw new Error('Classroom capacity exceeded');
+            throw new BadRequestError('Classroom capacity exceeded');
         }
 
         const student = new this.Student({ ...data, school: classroom.school });
@@ -39,18 +46,18 @@ module.exports = class StudentManager {
             const classroomIds = classrooms.map(classroom => classroom._id);
             return await this.Student.find({ classroom: { $in: classroomIds } }).populate('classroom');
         } else {
-            throw new Error('Access denied');
+            throw new AccessDeniedError('Access denied');
         }
     }
 
     async getStudentsByClassroom(classroomId, user) {
         const classroom = await this.Classroom.findById(classroomId).populate('school');
         if (!classroom) {
-            throw new Error('Classroom not found');
+            throw new NotFoundError('Classroom not found');
         }
 
         if (user.role !== 'superadmin' && !classroom.school.equals(user.school)) {
-            throw new Error('Access denied: You do not belong to the same school as the classroom');
+            throw new AccessDeniedError('Access denied: You do not belong to the same school as the classroom');
         }
 
         return await this.Student.find({ classroom }).populate('classroom');
@@ -59,11 +66,11 @@ module.exports = class StudentManager {
     async getStudentById(id, user) {
         const student = await this.Student.findById(id).populate('classroom');
         if (!student) {
-            throw new Error('Student not found');
+            throw new NotFoundError('Student not found');
         }
 
         if (user.role !== 'superadmin' && !student.classroom.school.equals(user.school)) {
-            throw new Error('Access denied: You do not belong to the same school as the student');
+            throw new AccessDeniedError('Access denied: You do not belong to the same school as the student');
         }
 
         return student;
@@ -72,31 +79,34 @@ module.exports = class StudentManager {
     async updateStudent(id, data, user) {
         const validation = this.validators.update.validate(data);
         if (validation.error) {
-            throw new Error(validation.error.details[0].message);
+            throw new BadRequestError(validation.error.details[0].message);
         }
 
         const student = await this.Student.findById(id).populate('classroom');
         if (!student) {
-            throw new Error('Student not found');
+            throw new NotFoundError('Student not found');
         }
 
         if (user.role !== 'superadmin' && !student.classroom.school.equals(user.school)) {
-            throw new Error('Access denied: You do not belong to the same school as the student');
+            throw new AccessDeniedError('Access denied: You do not belong to the same school as the student');
         }
 
+        if (data.classroom && !mongoose.Types.ObjectId.isValid(data.classroom)) {
+            throw new BadRequestError('Invalid Classroom');
+        }
         if (data.classroom && data.classroom !== student.classroom._id.toString()) {
             const classroom = await this.Classroom.findById(data.classroom).populate('school');
             if (!classroom) {
-                throw new Error('Classroom not found');
+                throw new NotFoundError('Classroom not found');
             }
 
             if (user.role !== 'superadmin' && !classroom.school.equals(user.school)) {
-                throw new Error('Access denied: You do not belong to the same school as the classroom');
+                throw new AccessDeniedError('Access denied: You do not belong to the same school as the classroom');
             }
 
             const studentCount = await this.Student.countDocuments({ classroom: data.classroom });
             if (studentCount >= classroom.capacity) {
-                throw new Error('Classroom capacity exceeded');
+                throw new BadRequestError('Classroom capacity exceeded');
             }
 
             data.school = classroom.school;
@@ -108,11 +118,11 @@ module.exports = class StudentManager {
     async deleteStudent(id, user) {
         const student = await this.Student.findById(id).populate('classroom');
         if (!student) {
-            throw new Error('Student not found');
+            throw new NotFoundError('Student not found');
         }
 
         if (user.role !== 'superadmin' && !student.classroom.school.equals(user.school)) {
-            throw new Error('Access denied: You do not belong to the same school as the student');
+            throw new AccessDeniedError('Access denied: You do not belong to the same school as the student');
         }
 
         return await this.Student.findByIdAndDelete(id);

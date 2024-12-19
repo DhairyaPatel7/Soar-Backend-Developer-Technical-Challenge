@@ -1,15 +1,13 @@
 const bcrypt = require('bcrypt');
+const { NotFoundError, AccessDeniedError, BadRequestError } = require('../../../error/error');
+const mongoose = require('mongoose');
 
 module.exports = class UserManager { 
     constructor({ mongomodels, validators, managers } = {}) {
-        // this.config = config;
-        // this.cortex = cortex;
         this.validators = validators.user; 
         this.User = mongomodels.user;
         this.tokenManager = managers.token;
         this.School = mongomodels.school;
-        // this.usersCollection = "users";
-        // this.userExposed = ['createUser'];
     }
 
     async createUser(data) {
@@ -18,13 +16,13 @@ module.exports = class UserManager {
         const validation = this.validators.create.validate(data);
 
         if (validation.error) {
-            throw new Error(validation.error.details[0].message);
+            throw new BadRequestError(validation.error.details[0].message);
         }
 
         if (data.school) {
             const school = await this.School.findById(data.school);
             if (!school) {
-                throw new Error('Invalid school');
+                throw new NotFoundError('Invalid school');
             }
         }
 
@@ -39,11 +37,11 @@ module.exports = class UserManager {
     async authenticateUser(email, password) {
         const user = await this.User.findOne({ email });
         if (!user) {
-            throw new Error('Invalid email or password');
+            throw new BadRequestError('Invalid email or password');
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            throw new Error('Invalid email or password');
+            throw new BadRequestError('Invalid email or password');
         }
         const token = this.tokenManager.genLongToken({ userId: user._id });
         return { user, token };
@@ -54,19 +52,23 @@ module.exports = class UserManager {
     }
 
     async getUserById(id) {
-        return await this.User.findById(id);
+        const user = await this.User.findById(id).populate('school');
+        if (!user) {
+            throw new NotFoundError('User not found');
+        }
+        return user;
     }
 
     async updateUser(id, data) {
         const validation = this.validators.update.validate(data);
         if (validation.error) {
-            throw new Error(validation.error.details[0].message);
+            throw new BadRequestError(validation.error.details[0].message);
         }
 
         if (data.school) {
             const school = await this.School.findById(data.school);
             if (!school) {
-                throw new Error('Invalid school');
+                throw new NotFoundError('User not found');
             }
         }
 
@@ -74,10 +76,10 @@ module.exports = class UserManager {
     }
 
     async deleteUser(id) {
-        const user = await this.User.findByIdAndDelete(id);
-        if (!user) {
-            throw new Error('User not found');
+        const userToDelete = await this.User.findById(id).populate('school');
+        if (!userToDelete) {
+            throw new NotFoundError('User not found');
         }
-        return user;
+        return await this.User.findByIdAndDelete(id);
     }
 }

@@ -1,3 +1,4 @@
+const { NotFoundError, BadRequestError } = require('../../../error/error');
 const mongoose = require('mongoose');
 
 module.exports = class SchoolManager {
@@ -9,7 +10,7 @@ module.exports = class SchoolManager {
     async createSchool(data) {
         const validation = this.validators.create.validate(data);
         if (validation.error) {
-            throw new Error(validation.error.details[0].message);
+            throw new BadRequestError(validation.error.details[0].message);
         }
 
         const school = new this.School(data);
@@ -22,19 +23,31 @@ module.exports = class SchoolManager {
     }
 
     async getSchoolById(id) {
-        return await this.School.findById(id).populate('admin');
+        const school = await this.School.findById(id).populate('admin');
+        if (!school) {
+            throw new NotFoundError('School not found');
+        }
+        return school;
     }
 
     async updateSchool(id, data) {
         const validation = this.validators.update.validate(data);
         if (validation.error) {
-            throw new Error(validation.error.details[0].message);
+            throw new BadRequestError(validation.error.details[0].message);
         }
 
-        return await this.School.findByIdAndUpdate(id, data, { new: true }).populate('admin');
+        const school = await this.School.findByIdAndUpdate(id, data, { new: true }).populate('admin');
+        if (!school) {
+            throw new NotFoundError('School not found');
+        }
+        return school;
     }
 
     async deleteSchool(id) {
-        return await this.School.findByIdAndDelete(id);
+        const school = await this.School.findByIdAndDelete(id);
+        if (!school) {
+            throw new NotFoundError('School not found');
+        }
+        return school;
     }
 }

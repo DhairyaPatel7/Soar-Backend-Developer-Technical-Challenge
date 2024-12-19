@@ -88,6 +88,31 @@ describe('Classroom Entity Integration Tests', () => {
             .send(newSchool);
         
         schoolId = schoolRes.body._id;
+
+
+        // Create a user with role 'user'
+        const newUser = {
+            username: 'Regular User',
+            email: 'user@example.com',
+            password: 'password123',
+            role: 'user'
+        };
+
+        const userRes = await request(app)
+            .post('/api/users/register')
+            .send(newUser);
+
+        // Authenticate the user
+        const userCredentials = {
+            email: 'user@example.com',
+            password: 'password123'
+        };
+
+        const userAuthRes = await request(app)
+            .post('/api/users/login')
+            .send(userCredentials);
+
+        userToken = userAuthRes.body.token;
     });
 
     after(async () => {
@@ -110,7 +135,7 @@ describe('Classroom Entity Integration Tests', () => {
             .set('Authorization', `Bearer ${schooladminToken}`)
             .send(newClassroom);
 
-        expect(res.status).to.equal(400); 
+        expect(res.status).to.equal(403); 
     });
 
     it('should update schooladmin user to add school', async () => {
@@ -175,6 +200,60 @@ describe('Classroom Entity Integration Tests', () => {
         expect(getRes.body.resources).to.deep.equal(['Projector', 'Whiteboard']);
     });
 
+    it('should fail get a classroom by invalid ID', async () => {
+        const invalidClassroomId = '605c72ef1532074b4c20d1a1';
+        const getRes = await request(app)
+            .get(`/api/classrooms/${invalidClassroomId}`)
+            .set('Authorization', `Bearer ${schooladminToken}`);
+
+        expect(getRes.status).to.equal(404);
+    });
+
+
+    it('should fail to update a classroom with an invalid school', async () => {
+        const updatedClassroom = {
+            school: 'invalidSchoolId'
+        };
+
+        const updateRes = await request(app)
+            .put(`/api/classrooms/${classroomId}`)
+            .set('Authorization', `Bearer ${schooladminToken}`)
+            .send(updatedClassroom);
+
+        expect(updateRes.status).to.equal(400);
+    });
+
+    it('should fail to update a classroom with access denied', async () => {
+        const newSchool = {
+            name: 'Another Test School',
+            address: '456 Another St',
+            phone: '987-654-3210',
+            email: 'anothertestschool@example.com',
+            website: 'http://anothertestschool.com',
+            established: '2005-01-01',
+            admin: superadminId
+        };
+
+        const schoolRes = await request(app)
+            .post('/api/schools')
+            .set('Authorization', `Bearer ${superadminToken}`)
+            .send(newSchool);
+
+        const anotherSchoolId = schoolRes.body._id;
+
+        const updatedClassroom = {
+            school: anotherSchoolId
+        };
+
+        const updateRes = await request(app)
+        .put(`/api/classrooms/${classroomId}`)
+        .set('Authorization', `Bearer ${schooladminToken}`)
+        .send(updatedClassroom);
+
+        expect(updateRes.status).to.equal(403);
+    });
+
+
     it('should delete a classroom', async () => {
         const deleteRes = await request(app)
             .delete(`/api/classrooms/${classroomId}`)
@@ -237,12 +316,38 @@ describe('Classroom Entity Integration Tests', () => {
         expect(res.status).to.equal(404); 
     });
 
-    it('should fail to get a deleted classroom by ID', async () => {
-        const getRes = await request(app)
-            .get(`/api/classrooms/${classroomId}`)
+    it('should fail to create a classroom with school missing', async () => {
+        const newClassroom = {
+            name: 'Test Classroom',
+            capacity: 30,
+            resources: ['Projector', 'Whiteboard']
+        };
+
+        const res = await request(app)
+            .post('/api/classrooms')
+            .set('Authorization', `Bearer ${schooladminToken}`)
+            .send(newClassroom);
+
+        expect(res.status).to.equal(400);
+    });
+
+    it('should fail to get a deleted classroom by invalidClassroomId', async () => {
+        const invalidClassroomId = '605c72ef1532074b4c20d1a1';
+        const delRes = await request(app)
+            .delete(`/api/classrooms/${invalidClassroomId}`)
             .set('Authorization', `Bearer ${schooladminToken}`);
 
-        expect(getRes.status).to.equal(400);
+        expect(delRes.status).to.equal(404);
     });
+
+
+    it('should fail to get all classrooms with user role', async () => {
+        const getAllRes = await request(app)
+            .get('/api/classrooms')
+            .set('Authorization', `Bearer ${userToken}`);
+
+        expect(getAllRes.status).to.equal(403);
+    });
+
     
 });

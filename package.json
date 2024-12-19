@@ -4,6 +4,7 @@
   "description": "Boilerplate",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js development",
     "test": "nyc --reporter=html --reporter=text mocha tests/**/*.test.js --reporter mochawesome"
   },
   "author": "",
